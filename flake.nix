@@ -2,14 +2,32 @@
   description = "A very basic flake";
 
   inputs = {
-    nixpkgs-unstable.url = "github:NixOs/nixpkgs?ref=nixos-unstable";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = { self, nixpkgs, ... } : {
-    nixosConfigurations."nixy" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [ ./modules/hosts/nixy/configuration.nix ];
-    };
-  };
+  outputs = inputs@{ self, nixpkgs, flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      { ... }:
+      {
+        systems = [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
+
+        imports = [
+          ./modules/shell.nix
+        ];
+
+        flake = {
+          nixosConfigurations.nixy = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              ./modules/hosts/nixy/configuration.nix
+            ];
+          };
+        };
+      }
+    );
 }
