@@ -5,7 +5,7 @@
     [
       ./hardware-configuration.nix
       ./../../users/job
-      ./../../common/nix
+      ./../common/nix
     ];
 
   boot.loader.systemd-boot.enable = true;
