@@ -5,9 +5,8 @@
     [
       ./hardware-configuration.nix
       ./../../users/job
+      ./../../common/nix
     ];
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -45,8 +44,6 @@
       PerSourcePenalties = "crash:3600s authfail:3600s max:86400s";
     };
   };
-
-  nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     vim
