@@ -1,12 +1,11 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./../../users/job
-      ./../common/nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ./../../users/job
+    ./../common/nix
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

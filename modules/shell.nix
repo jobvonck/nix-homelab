@@ -7,6 +7,7 @@
         pkgs.nh
         pkgs.nixos-rebuild-ng
         pkgs.just
+        pkgs.nixfmt
       ];
     };
   };

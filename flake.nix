@@ -7,7 +7,13 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = inputs@{ self, nixpkgs, flake-parts, ... }:
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      flake-parts,
+      ...
+    }:
     flake-parts.lib.mkFlake { inherit inputs; } (
       { ... }:
       {
