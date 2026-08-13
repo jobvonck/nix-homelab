@@ -1,4 +1,4 @@
-host := "homelab"
+host := "nixy"
 
 default:
   @just --list
