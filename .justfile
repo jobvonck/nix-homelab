@@ -13,7 +13,7 @@ switch:
   nh os switch .#{{host}}
 
 check:
-  nix flake check
+  nix flake check --all-systems
 
 fmt:
   nix fmt
