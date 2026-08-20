@@ -5,6 +5,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs =
@@ -12,6 +13,7 @@
       self,
       nixpkgs,
       flake-parts,
+      sops-nix,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } (
@@ -31,6 +33,7 @@
             system = "x86_64-linux";
             modules = [
               ./modules/hosts/nixy/configuration.nix
+              sops-nix.nixosModules.sops
             ];
           };
         };

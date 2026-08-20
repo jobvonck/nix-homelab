@@ -8,6 +8,8 @@
         pkgs.nixos-rebuild-ng
         pkgs.just
         pkgs.nixfmt
+        pkgs.sops
+        pkgs.age
       ];
     };
   };

@@ -1,8 +1,9 @@
-{ config, pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
+    ./sops.nix
     ./../../users/job
     ./../../core/nix
   ];
@@ -53,6 +54,8 @@
     vim
     git
     fastfetch
+    sops
+    age
   ];
 
   system.stateVersion = "26.05";
