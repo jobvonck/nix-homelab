@@ -3,9 +3,9 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./disko.nix
-    ./../../users/job
-    ./../../core/nix
+    ./sops.nix
+    ./../../modules/users/job
+    ./../../modules/core/nix
   ];
 
   boot.loader.systemd-boot.enable = true;

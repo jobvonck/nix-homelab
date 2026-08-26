@@ -37,8 +37,8 @@
           nixosConfigurations.nixy = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [
-              ./modules/hosts/nixy/configuration.nix
-              disko.nixosModules.disko
+              ./hosts/nixy/configuration.nix
+              sops-nix.nixosModules.sops
             ];
           };
         };
