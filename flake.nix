@@ -49,18 +49,21 @@
                 microvm.autostart = [
                   "my-microvm"
                 ];
-              }
-            ];
-          };
 
-          nixosConfigurations.my-microvm = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-              microvm.nixosModules.microvm
-              # Add more modules here
-              {
-                networking.hostName = "my-microvm";
-                microvm.hypervisor = "cloud-hypervisor";
+                microvm.vms.my-microvm = {
+                  config = {
+                    networking.hostName = "my-microvm";
+
+                    system.stateVersion = "26.05";
+
+                    microvm = {
+                      hypervisor = "qemu";
+
+                      mem = 2048;
+                      vcpu = 2;
+                    };
+                  };
+                };
               }
             ];
           };
