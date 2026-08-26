@@ -6,6 +6,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     flake-parts.url = "github:hercules-ci/flake-parts";
     sops-nix.url = "github:Mic92/sops-nix";
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -14,6 +18,7 @@
       nixpkgs,
       flake-parts,
       sops-nix,
+      disko,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } (
@@ -33,7 +38,7 @@
             system = "x86_64-linux";
             modules = [
               ./modules/hosts/nixy/configuration.nix
-              sops-nix.nixosModules.sops
+              disko.nixosModules.disko
             ];
           };
         };

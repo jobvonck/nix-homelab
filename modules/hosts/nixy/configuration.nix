@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./sops.nix
+    ./disko.nix
     ./../../users/job
     ./../../core/nix
   ];

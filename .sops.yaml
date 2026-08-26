@@ -2,9 +2,7 @@ keys:
   - &primary age1x6muzwc0t3qnlvds0k72npsvuf2vg5lt27g9we2vrtg6gj3cjfus62jtnm
 
 creation_rules:
-  # This rule applies to any file named 'secrets.yaml' directly in the 'secrets/' directory
-  # or 'secrets/github-deploy-key.yaml' etc.
-  - path_regex: "secrets/.*\\.yaml$"
+  - path_regex: "modules/users/job/secrets.yaml$"
     key_groups:
       - age:
           - *primary
