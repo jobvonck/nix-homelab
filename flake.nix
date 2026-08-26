@@ -10,6 +10,10 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    microvm = {
+      url = "github:microvm-nix/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -18,6 +22,7 @@
       nixpkgs,
       flake-parts,
       sops-nix,
+      microvm,
       disko,
       ...
     }:
@@ -39,6 +44,24 @@
             modules = [
               ./hosts/nixy/configuration.nix
               sops-nix.nixosModules.sops
+              microvm.nixosModules.host
+              {
+                microvm.autostart = [
+                  "my-microvm"
+                ];
+              }
+            ];
+          };
+
+          nixosConfigurations.my-microvm = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              microvm.nixosModules.microvm
+              # Add more modules here
+              {
+                networking.hostName = "my-microvm";
+                microvm.hypervisor = "cloud-hypervisor";
+              }
             ];
           };
         };
