@@ -53,14 +53,12 @@
                 microvm.vms.my-microvm = {
                   config = {
                     networking.hostName = "my-microvm";
-
                     system.stateVersion = "26.05";
 
                     microvm = {
                       hypervisor = "qemu";
-
                       mem = 2048;
-                      vcpu = 2;
+                      vcpu = 1;
                     };
                   };
                 };
