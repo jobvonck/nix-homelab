@@ -48,14 +48,17 @@
               sops-nix.nixosModules.sops
               microvm.nixosModules.host
               {
-                microvm.autostart = [
-                  "test-vm"
-                ];
+                microvm = {
+                  stateDir = "/var/lib/microvms";
+                  autostart = [
+                    "test-vm"
+                  ];
+                };
               }
             ];
           };
 
-          microvm.nixosConfigurations.test-vm = nixpkgs.lib.nixosSystem {
+          nixosConfigurations.test-vm = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
 
             modules = [
