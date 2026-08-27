@@ -39,6 +39,8 @@
         ];
 
         flake = {
+          nixosModules = import ./modules;
+
           nixosConfigurations.nixy = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [
@@ -47,22 +49,18 @@
               microvm.nixosModules.host
               {
                 microvm.autostart = [
-                  "my-microvm"
+                  "test-vm"
                 ];
-
-                microvm.vms.my-microvm = {
-                  config = {
-                    networking.hostName = "my-microvm";
-                    system.stateVersion = "26.05";
-
-                    microvm = {
-                      hypervisor = "qemu";
-                      mem = 2048;
-                      vcpu = 1;
-                    };
-                  };
-                };
               }
+            ];
+          };
+
+          microvm.nixosConfigurations.test-vm = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+
+            modules = [
+              ./hosts/test-vm
+              microvm.nixosModules.microvm
             ];
           };
         };
