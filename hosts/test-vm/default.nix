@@ -5,6 +5,15 @@
     hypervisor = "qemu";
     mem = 2048;
     vcpu = 1;
+
+    shares = [
+      {
+        source = "/nix/store";
+        mountPoint = "/nix/.ro-store";
+        tag = "ro-store";
+        proto = "virtiofs";
+      }
+    ];
   };
 
   networking.hostName = "test-vm";
