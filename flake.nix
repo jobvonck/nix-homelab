@@ -49,20 +49,31 @@
                 {
                   microvm = {
                     stateDir = "/var/lib/microvms";
-                    autostart = [
-                      "test-vm"
-                    ];
+                    autostart = [ "test-vm" ];
+
+                    vms.test-vm = {
+                      pkgs = import nixpkgs {
+                        system = "x86_64-linux";
+                      };
+
+                      config = {
+                        imports = [
+                          ./hosts/test-vm
+                          microvm.nixosModules.microvm
+                        ];
+
+                        microvm.shares = [
+                          {
+                            source = "/nix/store";
+                            mountPoint = "/nix/.ro-store";
+                            tag = "ro-store";
+                            proto = "virtiofs";
+                          }
+                        ];
+                      };
+                    };
                   };
                 }
-              ];
-            };
-
-            test-vm = nixpkgs.lib.nixosSystem {
-              system = "x86_64-linux";
-
-              modules = [
-                ./hosts/test-vm
-                microvm.nixosModules.microvm
               ];
             };
           };
