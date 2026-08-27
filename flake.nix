@@ -39,44 +39,7 @@
         ];
 
         flake = {
-          nixosConfigurations = {
-            nixy = nixpkgs.lib.nixosSystem {
-              system = "x86_64-linux";
-              modules = [
-                ./hosts/nixy/configuration.nix
-                sops-nix.nixosModules.sops
-                microvm.nixosModules.host
-                {
-                  microvm = {
-                    stateDir = "/var/lib/microvms";
-                    autostart = [ "test-vm" ];
-
-                    vms.test-vm = {
-                      pkgs = import nixpkgs {
-                        system = "x86_64-linux";
-                      };
-
-                      config = {
-                        imports = [
-                          ./hosts/test-vm
-                          microvm.nixosModules.microvm
-                        ];
-
-                        microvm.shares = [
-                          {
-                            source = "/nix/store";
-                            mountPoint = "/nix/.ro-store";
-                            tag = "ro-store";
-                            proto = "virtiofs";
-                          }
-                        ];
-                      };
-                    };
-                  };
-                }
-              ];
-            };
-          };
+          nixosConfigurations = import ./hosts { inherit self; };
         };
       }
     );
