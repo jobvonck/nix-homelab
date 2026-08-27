@@ -7,6 +7,6 @@
   };
 
   users.users.root = {
-    hashedPasswordFile = config.sops.secrets."password".path;
+    hashedPasswordFile = config.sops.secrets."password-root".path;
   };
 }
