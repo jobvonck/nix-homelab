@@ -39,32 +39,32 @@
         ];
 
         flake = {
-          nixosModules = import ./modules;
+          nixosConfigurations = {
+            nixy = nixpkgs.lib.nixosSystem {
+              system = "x86_64-linux";
+              modules = [
+                ./hosts/nixy/configuration.nix
+                sops-nix.nixosModules.sops
+                microvm.nixosModules.host
+                {
+                  microvm = {
+                    stateDir = "/var/lib/microvms";
+                    autostart = [
+                      "test-vm"
+                    ];
+                  };
+                }
+              ];
+            };
 
-          nixosConfigurations.nixy = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-              ./hosts/nixy/configuration.nix
-              sops-nix.nixosModules.sops
-              microvm.nixosModules.host
-              {
-                microvm = {
-                  stateDir = "/var/lib/microvms";
-                  autostart = [
-                    "test-vm"
-                  ];
-                };
-              }
-            ];
-          };
+            test-vm = nixpkgs.lib.nixosSystem {
+              system = "x86_64-linux";
 
-          nixosConfigurations.test-vm = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-
-            modules = [
-              ./hosts/test-vm
-              microvm.nixosModules.microvm
-            ];
+              modules = [
+                ./hosts/test-vm
+                microvm.nixosModules.microvm
+              ];
+            };
           };
         };
       }
