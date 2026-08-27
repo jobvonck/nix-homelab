@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 
 {
-  sops.secrets."password" = {
+  sops.secrets."password-root" = {
     neededForUsers = true;
     sopsFile = ./secrets.yaml;
   };
