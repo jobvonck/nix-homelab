@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ./../../modules
+  ];
+
   microvm = {
     hypervisor = "qemu";
     mem = 2048;
