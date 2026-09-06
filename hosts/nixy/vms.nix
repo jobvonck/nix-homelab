@@ -1,14 +1,19 @@
-{ self, ... }:
+{ self, lib, ... }:
 
+let
+  vmNames = [
+    "test-vm"
+  ];
+
+  vms = lib.genAttrs vmNames (
+    name: self.nixosConfigurations.${name}
+  );
+in
 {
-  microvm = {
-    stateDir = "/var/lib/microvms";
+  microvm.stateDir = "/var/lib/microvms";
 
-    vms = {
-      test-vm = {
-        flake = self;
-        restartIfChanged = true;
-      };
-    };
-  };
+  microvm.vms = lib.genAttrs vmNames (_name: {
+    flake = self;
+    restartIfChanged = true;
+  });
 }
