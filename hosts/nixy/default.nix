@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ./sops.nix
+    ./vms.nix
     ./../../modules/users/job
     ./../../modules/users/root
   ];
@@ -32,11 +33,6 @@
       MaxAuthTries = 3;
       PerSourcePenalties = "crash:3600s authfail:3600s max:86400s";
     };
-  };
-
-  microvm = {
-    autostart = [ "test-vm" ];
-    stateDir = "/var/lib/microvms";
   };
 
   environment.systemPackages = with pkgs; [
