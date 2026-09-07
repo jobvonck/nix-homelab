@@ -1,11 +1,13 @@
 { pkgs, ... }:
 
 {
-  microvm = {
-    hypervisor = "qemu";
-    mem = 2048;
+  homelab.microvm = {
+    enable = true;
     vcpu = 1;
+    mem = 1024;
+  };
 
+  microvm = {
     shares = [
       {
         source = "/nix/store";

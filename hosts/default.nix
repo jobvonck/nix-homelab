@@ -9,7 +9,7 @@ let
       specialArgs = { inherit self; };
       modules = [
         self.inputs.sops-nix.nixosModules.default
-        ./../modules/core
+        ./../modules
       ]
       ++ modules;
     };
@@ -21,6 +21,7 @@ let
 
       modules = [
         self.inputs.microvm.nixosModules.microvm
+        ./../modules/microvm.nix
       ]
       ++ modules;
     };
