@@ -23,6 +23,16 @@ in
     microvm = {
       hypervisor = "qemu";
       inherit (config.homelab.microvm) vcpu mem;
+
+      shares = [
+        {
+          source = "/nix/store";
+          mountPoint = "/nix/.ro-store";
+          tag = "ro-store";
+          proto = "virtiofs";
+        }
+      ];
+
     };
   };
 }

@@ -3,19 +3,9 @@
 {
   homelab.microvm = {
     enable = true;
+
     vcpu = 1;
     mem = 1024;
-  };
-
-  microvm = {
-    shares = [
-      {
-        source = "/nix/store";
-        mountPoint = "/nix/.ro-store";
-        tag = "ro-store";
-        proto = "virtiofs";
-      }
-    ];
   };
 
   networking.hostName = "test-vm";
