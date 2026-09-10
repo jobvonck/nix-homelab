@@ -8,10 +8,8 @@ let
   vms = lib.genAttrs vmNames (
     name: self.nixosConfigurations.${name}
   );
-
-  maxVMs = 64;
 in
-rec {
+{
   microvm.stateDir = "/var/lib/microvms";
 
   microvm.vms = lib.genAttrs vmNames (_name: {
