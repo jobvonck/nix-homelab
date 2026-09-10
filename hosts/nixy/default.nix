@@ -22,6 +22,16 @@
   networking.networkmanager.enable = true;
   # networking.wireless.enable = true;
 
+  systemd.network.enable = true;
+  systemd.network.wait-online.enable = false;
+
+  networking.nat = {
+    enable = true;
+    internalIPs = [ "10.0.0.0/24" ];
+    # Change this to the interface with upstream Internet access
+    externalInterface = "enp0s3";
+  };
+
   services.openssh = {
     enable = true;
     openFirewall = true;

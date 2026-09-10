@@ -17,9 +17,16 @@ in
       type = lib.types.nullOr lib.types.int;
       default = null;
     };
+
+    mac = lib.mkOption {
+      type = lib.types.str;
+      default = "00:00:00:00:00:01";
+    };
   };
 
   config = lib.mkIf cfg.enable {
+    systemd.network.enable = true;
+
     microvm = {
       hypervisor = "qemu";
       inherit (config.homelab.microvm) vcpu mem;
@@ -33,6 +40,52 @@ in
         }
       ];
 
+    };
+
+    microvm.interfaces = [
+      {
+        id = "vm${toString config.homelab.microvm.index}";
+        type = "tap";
+        inherit (config.homelab.microvm) mac;
+      }
+    ];
+
+    systemd.network.networks."10-eth" = {
+      matchConfig.MACAddress = config.homelab.microvm.mac;
+
+      # Static IP configuration
+      address = [
+        "10.0.0.${toString config.homelab.microvm.index}/32"
+        "fec0::${lib.toHexString config.homelab.microvm.index}/128"
+      ];
+
+      routes = [
+        {
+          # A route to the host
+          Destination = "10.0.0.0/32";
+          GatewayOnLink = true;
+        }
+        {
+          # Default route
+          Destination = "0.0.0.0/0";
+          Gateway = "10.0.0.0";
+          GatewayOnLink = true;
+        }
+        {
+          # Default route
+          Destination = "::/0";
+          Gateway = "fec0::";
+          GatewayOnLink = true;
+        }
+      ];
+      networkConfig = {
+        DNS = [
+          "9.9.9.9"
+          "149.112.112.112"
+          "2620:fe::fe"
+          "2620:fe::9"
+        ];
+      };
     };
   };
 }

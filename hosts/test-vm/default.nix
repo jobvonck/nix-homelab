@@ -3,6 +3,7 @@
 {
   homelab.microvm = {
     enable = true;
+    index = 1;
 
     vcpu = 1;
     mem = 1024;
