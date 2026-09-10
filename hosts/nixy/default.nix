@@ -29,7 +29,7 @@
     enable = true;
     internalIPs = [ "10.0.0.0/24" ];
     # Change this to the interface with upstream Internet access
-    externalInterface = "enp0s3";
+    externalInterface = "wlo1";
   };
 
   services.openssh = {
