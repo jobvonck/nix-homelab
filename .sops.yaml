@@ -2,6 +2,7 @@ keys:
   - &primary age1x6muzwc0t3qnlvds0k72npsvuf2vg5lt27g9we2vrtg6gj3cjfus62jtnm
 
   - &nixy age19yyst6n84e0mww2s3ffws22wxv33nhhlt9e73s5wuh3mhqgt55vq6t7glj
+  - &test-vm age1008ksemjsmf79qw70dc7k6psnlaet4kywttu9mr50zvnqhapqajq4c986e
 
 creation_rules:
   - path_regex: "modules/users/job/secrets.yaml$"
@@ -9,8 +10,10 @@ creation_rules:
       - age:
           - *primary
           - *nixy
+          - *test-vm
   - path_regex: "modules/users/root/secrets.yaml$"
     key_groups:
       - age:
           - *primary
           - *nixy
+          - *test-vm
