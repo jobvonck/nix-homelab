@@ -11,15 +11,17 @@
 
   networking.hostName = "test-vm";
 
+  users.mutableUsers = false;
+
   services.openssh = {
     enable = true;
     openFirewall = true;
     settings = {
-      PasswordAuthentication = true;
+      PasswordAuthentication = true; # Remove true
       KbdInteractiveAuthentication = false;
       PermitRootLogin = "no";
       AllowUsers = [ "job" ];
-      MaxAuthTries = 10;
+      MaxAuthTries = 3;
       PerSourcePenalties = "crash:3600s authfail:3600s max:86400s";
     };
   };
@@ -37,8 +39,6 @@
   };
 
   networking.firewall.allowedTCPPorts = [ 80 ];
-
-  users.mutableUsers = false;
 
   environment.systemPackages = with pkgs; [
     vim

@@ -10,6 +10,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  users.mutableUsers = false;
+
   services.logind.settings.Login = {
     HandleLidSwitch = "poweroff";
     HandleLidSwitchExternalPower = "lock";
