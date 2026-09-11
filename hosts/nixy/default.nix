@@ -1,12 +1,10 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
     ./sops.nix
     ./vms.nix
-    ./../../modules/users/job
-    ./../../modules/users/root
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -28,7 +26,6 @@
   networking.nat = {
     enable = true;
     internalIPs = [ "10.0.0.0/24" ];
-    # Change this to the interface with upstream Internet access
     externalInterface = "wlo1";
     forwardPorts = [
       {
