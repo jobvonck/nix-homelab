@@ -38,6 +38,8 @@
 
   networking.firewall.allowedTCPPorts = [ 80 ];
 
+  users.mutableUsers = false;
+
   environment.systemPackages = with pkgs; [
     vim
     git
