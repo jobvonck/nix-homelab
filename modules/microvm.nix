@@ -31,15 +31,26 @@ in
       hypervisor = "qemu";
       inherit (config.homelab.microvm) vcpu mem;
 
-      # shares = [
-      #   {
-      #     source = "/nix/store";
-      #     mountPoint = "/nix/.ro-store";
-      #     tag = "ro-store";
-      #     proto = "virtiofs";
-      #   }
-      # ];
-
+      shares = [
+        {
+          source = "/nix/store";
+          mountPoint = "/nix/.ro-store";
+          tag = "ro-store";
+          proto = "virtiofs";
+        }
+        {
+          source = "/var/lib/microvms/${config.networking.hostName}/etc";
+          mountPoint = "/etc";
+          tag = "etc";
+          proto = "virtiofs";
+        }
+        {
+          source = "/var/lib/microvms/${config.networking.hostName}/var";
+          mountPoint = "/var";
+          tag = "var";
+          proto = "virtiofs";
+        }
+      ];
     };
 
     microvm.interfaces = [
