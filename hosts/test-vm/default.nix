@@ -17,7 +17,7 @@
     enable = true;
     openFirewall = true;
     settings = {
-      PasswordAuthentication = false;
+      PasswordAuthentication = true;
       KbdInteractiveAuthentication = false;
       PermitRootLogin = "no";
       AllowUsers = [ "job" ];
