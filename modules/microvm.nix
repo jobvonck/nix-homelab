@@ -38,18 +38,6 @@ in
           tag = "ro-store";
           proto = "virtiofs";
         }
-        # {
-        #   source = "/var/lib/microvms/${config.networking.hostName}/etc";
-        #   mountPoint = "/etc";
-        #   tag = "etc";
-        #   proto = "virtiofs";
-        # }
-        # {
-        #   source = "/var/lib/microvms/${config.networking.hostName}/var";
-        #   mountPoint = "/var";
-        #   tag = "var";
-        #   proto = "virtiofs";
-        # }
       ];
     };
 
