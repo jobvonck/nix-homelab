@@ -52,7 +52,6 @@ in
     systemd.network.networks."10-eth" = {
       matchConfig.MACAddress = config.homelab.microvm.mac;
 
-      # Static IP configuration
       address = [
         "10.0.0.${toString config.homelab.microvm.index}/32"
         "fec0::${lib.toHexString config.homelab.microvm.index}/128"

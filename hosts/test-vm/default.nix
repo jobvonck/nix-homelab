@@ -26,11 +26,7 @@
   networking.firewall.allowedTCPPorts = [ 80 ];
 
   environment.systemPackages = with pkgs; [
-    vim
-    git
     fastfetch
-    sops
-    age
   ];
 
   system.stateVersion = "26.05";
