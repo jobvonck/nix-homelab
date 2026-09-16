@@ -10,8 +10,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  users.mutableUsers = false;
-
   services.logind.settings.Login = {
     HandleLidSwitch = "poweroff";
     HandleLidSwitchExternalPower = "lock";
@@ -36,19 +34,6 @@
         destination = "10.0.0.1:80";
       }
     ];
-  };
-
-  services.openssh = {
-    enable = true;
-    openFirewall = true;
-    settings = {
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-      PermitRootLogin = "no";
-      AllowUsers = [ "job" ];
-      MaxAuthTries = 3;
-      PerSourcePenalties = "crash:3600s authfail:3600s max:86400s";
-    };
   };
 
   environment.systemPackages = with pkgs; [
