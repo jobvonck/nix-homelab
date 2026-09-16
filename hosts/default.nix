@@ -41,4 +41,11 @@ in
       ./test-vm
     ];
   };
+
+  forgejo = mkGuest {
+    system = defaultSystem;
+    modules = [
+      ./forgejo
+    ];
+  };
 }

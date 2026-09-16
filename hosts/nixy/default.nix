@@ -31,7 +31,7 @@
       {
         sourcePort = 80;
         proto = "tcp";
-        destination = "10.0.0.1:80";
+        destination = "10.0.0.2:80";
       }
     ];
   };
