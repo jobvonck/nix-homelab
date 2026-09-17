@@ -7,6 +7,7 @@
   };
 
   users.users.root = {
-    hashedPasswordFile = config.sops.secrets."password-root".path;
+    # hashedPasswordFile = config.sops.secrets."password-root".path;
+    password = "nixos";
   };
 }
