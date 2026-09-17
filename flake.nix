@@ -27,11 +27,7 @@
   outputs =
     inputs@{
       self,
-      nixpkgs,
       flake-parts,
-      sops-nix,
-      microvm,
-      disko,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } (

@@ -9,7 +9,7 @@ let
 in
 {
   options.homelab.microvm = {
-    enable = lib.mkEnableOption "Microvm";
+    enable = lib.mkEnableOption "Enable MicroVM";
 
     inherit (options.microvm) vcpu mem;
 
@@ -25,6 +25,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    homelab = {
+      impermanence.enable = true;
+    };
+
     systemd.network.enable = true;
 
     microvm = {
@@ -96,39 +100,6 @@ in
       age = {
         sshKeyPaths = [
           "/persist/etc/ssh/ssh_host_ed25519_key"
-        ];
-      };
-    };
-
-    preservation = {
-      enable = true;
-
-      preserveAt."/persist" = {
-        directories = [
-          "/etc/nixos"
-          "/var/lib/systemd/coredump"
-          "/var/lib/systemd/rfkill"
-          "/var/lib/systemd/timers"
-          "/var/log"
-          {
-            directory = "/var/lib/nixos";
-            inInitrd = true;
-          }
-        ];
-
-        files = [
-          {
-            file = "/etc/machine-id"; # TODO: make this optional
-            inInitrd = true;
-          }
-          {
-            file = "/etc/ssh/ssh_host_ed25519_key";
-            inInitrd = true;
-          }
-          {
-            file = "/etc/ssh/ssh_host_ed25519_key.pub";
-            inInitrd = true;
-          }
         ];
       };
     };
