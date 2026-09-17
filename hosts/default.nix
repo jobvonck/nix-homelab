@@ -21,6 +21,7 @@ let
 
       modules = [
         self.inputs.microvm.nixosModules.microvm
+        self.inputs.preservation.nixosModules.default
         ./../modules/microvm.nix
       ]
       ++ modules;

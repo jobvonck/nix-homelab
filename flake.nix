@@ -6,6 +6,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
+    preservation.url = "github:nix-community/preservation";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";

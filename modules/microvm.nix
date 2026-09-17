@@ -38,6 +38,12 @@ in
           tag = "ro-store";
           proto = "virtiofs";
         }
+        {
+          source = "/var/lib/microvms/${config.networking.hostName}/persist"; # TODO: add statedir as source
+          mountPoint = "/persist";
+          tag = "persist";
+          proto = "virtiofs";
+        }
       ];
     };
 
@@ -88,8 +94,42 @@ in
 
     sops = {
       age = {
-        keyFile = "/var/lib/sops-nix/key.txt";
-        generateKey = true;
+        sshKeyPaths = [
+          "/persist/etc/ssh/ssh_host_ed25519_key"
+        ];
+      };
+    };
+
+    preservation = {
+      enable = true;
+
+      preserveAt."/persist" = {
+        directories = [
+          "/etc/nixos"
+          "/var/lib/systemd/coredump"
+          "/var/lib/systemd/rfkill"
+          "/var/lib/systemd/timers"
+          "/var/log"
+          {
+            directory = "/var/lib/nixos";
+            inInitrd = true;
+          }
+        ];
+
+        files = [
+          {
+            file = "/etc/machine-id"; # TODO: make this optional
+            inInitrd = true;
+          }
+          {
+            file = "/etc/ssh/ssh_host_ed25519_key";
+            inInitrd = true;
+          }
+          {
+            file = "/etc/ssh/ssh_host_ed25519_key.pub";
+            inInitrd = true;
+          }
+        ];
       };
     };
   };
