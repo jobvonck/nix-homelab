@@ -9,7 +9,7 @@
     mem = 1024;
   };
 
-  networking.hostName = "forjego";
+  networking.hostName = "forgejo";
 
   services.nginx = {
     enable = true;
