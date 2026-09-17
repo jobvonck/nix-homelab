@@ -9,8 +9,8 @@
       persistent = true;
     };
     optimise = {
-      automatic = true;
-      dates = [ "daily" ];
+      automatic = false; # TODO: Make default true and override
+      # dates = [ "daily" ];
     };
 
     settings.experimental-features = lib.mkDefault [
