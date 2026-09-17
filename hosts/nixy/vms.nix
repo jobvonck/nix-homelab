@@ -3,7 +3,6 @@
 let
   vmNames = [
     "test-vm"
-    "forgejo"
   ];
 
   vms = lib.genAttrs vmNames (name: self.nixosConfigurations.${name});
