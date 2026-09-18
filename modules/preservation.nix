@@ -12,6 +12,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    fileSystems."/persist".neededForBoot = true;
+
     preservation = {
       enable = true;
 
