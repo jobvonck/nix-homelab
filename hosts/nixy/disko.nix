@@ -5,17 +5,17 @@
   # TODO: Generate config more modular
   boot.initrd.systemd.enable = true;
 
-  boot.initrd.systemd.services.rollback = {
-    description = "Rollback ZFS root to blank snapshot";
-    wantedBy = [ "initrd.target" ];
-    after = [ "zfs-import-zroot.service" ];
-    before = [ "sysroot.mount" ];
-    unitConfig.DefaultDependencies = "no";
-    serviceConfig.Type = "oneshot";
-    script = ''
-      zfs rollback -r zroot/tank/root@blank
-    '';
-  };
+  # boot.initrd.systemd.services.rollback = {
+  #   description = "Rollback ZFS root to blank snapshot";
+  #   wantedBy = [ "initrd.target" ];
+  #   after = [ "zfs-import-zroot.service" ];
+  #   before = [ "sysroot.mount" ];
+  #   unitConfig.DefaultDependencies = "no";
+  #   serviceConfig.Type = "oneshot";
+  #   script = ''
+  #     zfs rollback -r zroot/tank/root@blank
+  #   '';
+  # };
 
   disko.devices = {
     disk = {
@@ -42,7 +42,8 @@
                 type = "luks";
                 name = "crypted";
                 # Not needed for manual
-                passwordFile = "/tmp/secret.key";
+                # passwordFile = "/tmp/secret.key";
+                askPassword = true;
                 settings.allowDiscards = true;
                 content = {
                   type = "zfs";

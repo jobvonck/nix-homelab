@@ -14,11 +14,15 @@ Harden using
 1. Boot into NixOS live-usb
 2. Add luks password in */tmp/secret.key*
 3. Look for device by-id for nixy/disko.nix
-4. Run
+4. Run:
 
-```bash
-nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko --flake .#nixy
-```
+  ```bash
+  sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko --flake .#nixy
+  ```
 
 1. Restore */persist* or leave empty for fresh start
-2. nixos-install --flake .#nixy
+2. Run:
+
+  ```bash
+  sudo nixos-install --flake .#nixy
+  ```
