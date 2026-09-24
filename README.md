@@ -12,17 +12,32 @@ Harden using
 ## Installation
 
 1. Boot into NixOS live-usb
-2. Add luks password in */tmp/secret.key*
-3. Look for device by-id for nixy/disko.nix
-4. Run:
+2. Look for device by-id for nixy/disko.nix
+
+Partition the drives using `disko`
 
   ```bash
   sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko --flake .#nixy
   ```
 
-1. Restore */persist* or leave empty for fresh start
-2. Run:
+> Restore */persist* or leave empty for fresh start
+
+Install NixOS on the system
 
   ```bash
   sudo nixos-install --flake .#nixy
   ```
+
+Unmount the filesystems (due to different hostids)
+
+```bash
+umount "/mnt/boot/efis/*"
+umount -Rl "/mnt"
+zpool export -a
+```
+
+Reboot
+
+```bash
+reboot
+```

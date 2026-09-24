@@ -5,24 +5,24 @@
   # TODO: Generate config more modular
   boot.initrd.systemd.enable = true;
 
-  # boot.initrd.systemd.services.rollback = {
-  #   description = "Rollback ZFS root to blank snapshot";
-  #   wantedBy = [ "initrd.target" ];
-  #   after = [ "zfs-import-zroot.service" ];
-  #   before = [ "sysroot.mount" ];
-  #   unitConfig.DefaultDependencies = "no";
-  #   serviceConfig.Type = "oneshot";
-  #   script = ''
-  #     zfs rollback -r zroot/tank/root@blank
-  #   '';
-  # };
+  boot.initrd.systemd.services.rollback = {
+    description = "Rollback ZFS root to blank snapshot";
+    wantedBy = [ "initrd.target" ];
+    after = [ "zfs-import-zroot.service" ];
+    before = [ "sysroot.mount" ];
+    unitConfig.DefaultDependencies = "no";
+    serviceConfig.Type = "oneshot";
+    script = ''
+      zfs rollback -r zroot/tank/root@blank
+    '';
+  };
 
   disko.devices = {
     disk = {
       main = {
         type = "disk";
         # TODO: add device dev-by-id
-        device = "/dev/vdb";
+        device = "/dev/disk/by-id/???";
         content = {
           type = "gpt";
           partitions = {
