@@ -18,6 +18,7 @@ in
       default = null;
     };
 
+    # TODO: Generate stable mac based on index
     mac = lib.mkOption {
       type = lib.types.str;
       default = "00:00:00:00:00:01";
@@ -43,7 +44,7 @@ in
           proto = "virtiofs";
         }
         {
-          source = "/var/lib/microvms/${config.networking.hostName}/persist"; # TODO: add statedir as source
+          source = "/persist/var/lib/microvms/${config.networking.hostName}/persist"; # TODO: add statedir as source
           mountPoint = "/persist";
           tag = "persist";
           proto = "virtiofs";

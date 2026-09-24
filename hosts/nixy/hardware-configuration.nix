@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }:
@@ -24,22 +23,15 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/4ba50f01-a8a9-4d6b-b249-9553f3f56ea0";
-    fsType = "ext4";
-    neededForBoot = true;
-  };
+  boot.zfs.forceImportRoot = false;
+  boot.supportedFilesystems = [ "zfs" ];
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/F9C4-AD79";
-    fsType = "vfat";
-    options = [
-      "fmask=0077"
-      "dmask=0077"
-    ];
-  };
-
-  swapDevices = [ ];
+  # TODO:This needs tuning
+  # https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/Workload%20Tuning.html
+  boot.kernelParams = [
+    "zfs.zfs_arc_max=2147483648"
+    "zfs.zfs_arc_min=1073741824"
+  ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

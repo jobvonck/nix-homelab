@@ -2,10 +2,15 @@
 
 {
   imports = [
+    ./disko.nix
     ./hardware-configuration.nix
     ./sops.nix
     ./vms.nix
   ];
+
+  homelab = {
+    impermanence.enable = true;
+  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -17,6 +22,7 @@
   };
 
   networking.hostName = "nixy";
+  networking.hostId = "8989fea7"; # TODO: find some better declarative option
   networking.networkmanager.enable = true;
   # networking.wireless.enable = true;
 
