@@ -1,7 +1,8 @@
-{ pkgs, ... }:
+{ self, pkgs, ... }:
 
 {
   imports = [
+    self.nixosModules.preservation
     ./disko.nix
     ./hardware-configuration.nix
     ./sops.nix

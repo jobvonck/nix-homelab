@@ -1,6 +1,10 @@
-{ pkgs, ... }:
+{ self, pkgs, ... }:
 
 {
+  imports = [
+    self.nixosModules.microvm
+  ];
+
   homelab.microvm = {
     enable = true;
     index = 1;

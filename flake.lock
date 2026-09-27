@@ -126,6 +126,7 @@
       "inputs": {
         "disko": "disko",
         "flake-parts": "flake-parts",
+        "import-tree": "import-tree",
         "microvm": "microvm",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",

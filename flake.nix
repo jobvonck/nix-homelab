@@ -6,6 +6,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
     preservation.url = "github:nix-community/preservation";
 
     sops-nix = {
@@ -40,6 +41,8 @@
 
         imports = [
           ./modules/shell.nix
+          ./modules/microvm.nix
+          ./modules/preservation.nix
         ];
 
         flake = {

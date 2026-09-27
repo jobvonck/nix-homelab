@@ -9,20 +9,7 @@ let
       specialArgs = { inherit self; };
       modules = [
         self.inputs.sops-nix.nixosModules.default
-        self.inputs.preservation.nixosModules.default
         ./../modules
-      ]
-      ++ modules;
-    };
-
-  mkGuest =
-    { system, modules }:
-    mkHost {
-      inherit system;
-
-      modules = [
-        self.inputs.microvm.nixosModules.microvm
-        ./../modules/microvm.nix
       ]
       ++ modules;
     };
@@ -37,14 +24,14 @@ in
     ];
   };
 
-  test-vm = mkGuest {
+  test-vm = mkHost {
     system = defaultSystem;
     modules = [
       ./test-vm
     ];
   };
 
-  forgejo = mkGuest {
+  forgejo = mkHost {
     system = defaultSystem;
     modules = [
       ./forgejo

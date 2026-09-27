@@ -1,46 +1,53 @@
-{
-  config,
-  lib,
-  ...
-}:
-let
-  cfg = config.homelab.impermanence;
-in
-{
-  options.homelab.impermanence = {
-    enable = lib.mkEnableOption "Enable impermanence";
-  };
+{ inputs, ... }: {
+  flake.nixosModules.preservation =
+    {
+      config,
+      lib,
+      ...
+    }:
+    let
+      cfg = config.homelab.impermanence;
+    in
+    {
+      imports = [
+        inputs.preservation.nixosModules.default
+      ];
 
-  config = lib.mkIf cfg.enable {
-    fileSystems."/persist".neededForBoot = true;
+      options.homelab.impermanence = {
+        enable = lib.mkEnableOption "Enable impermanence";
+      };
 
-    preservation = {
-      enable = true;
+      config = lib.mkIf cfg.enable {
+        fileSystems."/persist".neededForBoot = true;
 
-      preserveAt."/persist" = {
-        files = [
-          {
-            file = "/etc/machine-id"; # TODO: make this optional
-            inInitrd = true;
-          }
-          # { file = "/etc/ssh/ssh_host_rsa_key"; how = "symlink"; configureParent = true; }
-          {
-            file = "/etc/ssh/ssh_host_ed25519_key";
-            how = "symlink";
-            configureParent = true;
-          }
-        ];
-        directories = [
-          "/var/lib/systemd/coredump"
-          "/var/lib/systemd/rfkill"
-          "/var/lib/systemd/timers"
-          "/var/log"
-          {
-            directory = "/var/lib/nixos";
-            inInitrd = true;
-          }
-        ];
+        preservation = {
+          enable = true;
+
+          preserveAt."/persist" = {
+            files = [
+              {
+                file = "/etc/machine-id"; # TODO: make this optional
+                inInitrd = true;
+              }
+              # { file = "/etc/ssh/ssh_host_rsa_key"; how = "symlink"; configureParent = true; }
+              {
+                file = "/etc/ssh/ssh_host_ed25519_key";
+                how = "symlink";
+                configureParent = true;
+              }
+            ];
+            directories = [
+              "/var/lib/systemd/coredump"
+              "/var/lib/systemd/rfkill"
+              "/var/lib/systemd/timers"
+              "/var/log"
+              {
+                directory = "/var/lib/nixos";
+                inInitrd = true;
+              }
+            ];
+          };
+        };
       };
     };
-  };
 }
