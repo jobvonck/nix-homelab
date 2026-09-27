@@ -1,5 +1,5 @@
 { self, inputs, ... }: {
-  flake.nixosModules.microvm =
+  flake.nixosModules.microvm-vm =
     {
       config,
       options,
@@ -100,14 +100,6 @@
               "149.112.112.112"
               "2620:fe::fe"
               "2620:fe::9"
-            ];
-          };
-        };
-
-        sops = {
-          age = {
-            sshKeyPaths = [
-              "/persist/etc/ssh/ssh_host_ed25519_key"
             ];
           };
         };

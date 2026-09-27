@@ -18,7 +18,6 @@ in
   nixy = mkHost {
     system = defaultSystem;
     modules = [
-      self.inputs.microvm.nixosModules.host
       self.inputs.disko.nixosModules.disko
       ./nixy
     ];

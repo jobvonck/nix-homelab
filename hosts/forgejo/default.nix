@@ -2,7 +2,7 @@
 
 {
   imports = [
-    self.nixosModules.microvm
+    self.nixosModules.microvm-vm
   ];
 
   homelab.microvm = {

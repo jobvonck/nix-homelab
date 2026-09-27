@@ -40,7 +40,8 @@
 
         imports = [
           ./modules/shell.nix
-          ./modules/microvm.nix
+          ./modules/virtualization/vm.nix
+          ./modules/virtualization/host.nix
           ./modules/preservation.nix
         ];
 

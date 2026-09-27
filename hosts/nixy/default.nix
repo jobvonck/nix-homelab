@@ -3,10 +3,10 @@
 {
   imports = [
     self.nixosModules.preservation
-    ./disko.nix
+    self.nixosModules.microvm-host
+
     ./hardware-configuration.nix
-    ./sops.nix
-    ./vms.nix
+    ./disko.nix
   ];
 
   homelab = {
