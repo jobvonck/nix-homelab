@@ -12,6 +12,9 @@ try:
 switch:
   nh os switch .#{{host}}
 
+switch-remote:
+  nh os switch .#{{host}} --target-host nixy
+
 check:
   nix flake check --all-systems
 

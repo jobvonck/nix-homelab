@@ -7,7 +7,12 @@
   ];
 
   homelab = {
-    impermanence.enable = false;
+    impermanence = {
+      enable = false;
+      directories = [
+        "/var/lib/acme"
+      ];
+    };
 
     microvm = {
       enable = true;

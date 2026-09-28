@@ -15,6 +15,16 @@
 
       options.homelab.impermanence = {
         enable = lib.mkEnableOption "Enable impermanence";
+
+        files = lib.mkOption {
+          type = lib.types.listOf lib.types.anything;
+          default = [];
+        };
+
+        directories = lib.mkOption {
+          type = lib.types.listOf lib.types.anything;
+          default = [];
+        };
       };
 
       config = lib.mkIf cfg.enable {
@@ -35,7 +45,7 @@
                 how = "symlink";
                 configureParent = true;
               }
-            ];
+            ] ++ cfg.files;
             directories = [
               "/var/lib/systemd/coredump"
               "/var/lib/systemd/rfkill"
@@ -45,7 +55,7 @@
                 directory = "/var/lib/nixos";
                 inInitrd = true;
               }
-            ];
+            ] ++ cfg.directories;
           };
         };
       };
