@@ -12,7 +12,6 @@
     {
       imports = [
         inputs.microvm.nixosModules.microvm
-        self.nixosModules.preservation
       ];
 
       options.homelab.microvm = {
@@ -33,10 +32,6 @@
       };
 
       config = lib.mkIf cfg.enable {
-        homelab = {
-          impermanence.enable = true;
-        };
-
         systemd.network.enable = true;
 
         microvm = {

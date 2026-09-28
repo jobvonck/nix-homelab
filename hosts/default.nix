@@ -23,10 +23,10 @@ in
     ];
   };
 
-  test-vm = mkHost {
+  nginx = mkHost {
     system = defaultSystem;
     modules = [
-      ./test-vm
+      ./nginx
     ];
   };
 

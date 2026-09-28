@@ -4,7 +4,7 @@
 
     let
       vmNames = [
-        "test-vm"
+        "nginx"
         "forgejo"
       ];
 
