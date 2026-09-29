@@ -1,0 +1,64 @@
+{
+  config,
+  ...
+}:
+
+{
+  flake.modules.nixos."hosts/nixy" =
+    { pkgs, ... }:
+
+    {
+      imports = with config.flake.modules.nixos; [
+        core
+        preservation
+        single-nvme-zfs
+
+        # TODO: Remove this temporary addition
+        hardware-nixy
+      ];
+
+      homelab = {
+        impermanence = {
+          enable = false;
+        };
+      };
+
+      networking.hostName = "nixy";
+      networking.hostId = "8989fea7"; # TODO: find some better declarative option
+      networking.networkmanager.enable = true;
+      # networking.wireless.enable = true;
+
+      systemd.network.enable = true;
+      systemd.network.wait-online.enable = false;
+
+      networking.nat = {
+        enable = true;
+        internalIPs = [ "10.0.0.0/24" ];
+        externalInterface = "wlo1";
+        forwardPorts = [
+          {
+            sourcePort = 80;
+            proto = "tcp";
+            destination = "10.0.0.2:80";
+          }
+        ];
+      };
+
+      boot.loader.systemd-boot.enable = true;
+      boot.loader.efi.canTouchEfiVariables = true;
+
+      services.logind.settings.Login = {
+        HandleLidSwitch = "poweroff";
+        HandleLidSwitchExternalPower = "lock";
+        HandleLidSwitchDocked = "lock";
+      };
+
+      environment.systemPackages = with pkgs; [
+        vim
+        git
+        fastfetch
+        sops
+        age
+      ];
+    };
+}
