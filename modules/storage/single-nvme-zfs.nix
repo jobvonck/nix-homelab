@@ -28,6 +28,7 @@
 
       # TODO:This needs tuning
       # https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/Workload%20Tuning.html
+      # https://klarasystems.com/articles/openzfs-storage-best-practices-and-use-cases-part-3-databases-and-vms/
       boot.kernelParams = [
         "zfs.zfs_arc_max=2147483648"
         "zfs.zfs_arc_min=1073741824"

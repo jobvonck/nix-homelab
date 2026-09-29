@@ -7,6 +7,8 @@
       ...
     }:
 
+    # Investigate:
+    # https://dsestu.github.io/knowledge/docs/nixos/impermanence.html#what-to-persist
     let
       cfg = config.homelab.impermanence;
     in
