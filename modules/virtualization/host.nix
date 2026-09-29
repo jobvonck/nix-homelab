@@ -1,8 +1,16 @@
-{ inputs, ... }: {
-  flake.nixosModules.microvm-host =
-    { self, lib, ... }:
+{
+  flake.modules.nixos.microvm-host =
+    {
+      self,
+      inputs,
+      config,
+      lib,
+      ...
+    }:
 
     let
+      cfg = config.homelab.microvm.host;
+
       vmNames = [
         "nginx"
         "forgejo"
@@ -12,44 +20,49 @@
     in
     {
       imports = [
-        self.inputs.microvm.nixosModules.host
+        inputs.microvm.nixosModules.host
       ];
 
-      microvm.stateDir = "/var/lib/microvms";
+      options.homelab.microvm.host = {
+        enable = lib.mkEnableOption "Enable MicroVM host";
+      };
 
-      microvm.vms = lib.genAttrs vmNames (_name: {
-        flake = self;
-        restartIfChanged = true;
-      });
+      config = lib.mkIf cfg.enable {
+        microvm.stateDir = "/var/lib/microvms";
 
-      systemd.network.networks = lib.mapAttrs' (
-        _name: config:
-        let
-          index = config.config.homelab.microvm.index;
-        in
-        lib.nameValuePair "30-vm${toString index}" {
-          matchConfig.Name = "vm${toString index}";
+        microvm.vms = lib.genAttrs vmNames (_name: {
+          flake = self;
+          restartIfChanged = true;
+        });
 
-          address = [
-            "10.0.0.0/32"
-            "fec0::/128"
-          ];
+        systemd.network.networks = lib.mapAttrs' (
+          _name: config:
+          let
+            index = config.config.homelab.microvm.vm.index;
+          in
+          lib.nameValuePair "30-vm${toString index}" {
+            matchConfig.Name = "vm${toString index}";
 
-          routes = [
-            {
-              Destination = "10.0.0.${toString index}/32";
-            }
-            {
-              Destination = "fec0::${lib.toHexString index}/128";
-            }
-          ];
+            address = [
+              "10.0.0.0/32"
+              "fec0::/128"
+            ];
 
-          networkConfig = {
-            IPv4Forwarding = true;
-            IPv6Forwarding = true;
-          };
-        }
-      ) vms;
+            routes = [
+              {
+                Destination = "10.0.0.${toString index}/32";
+              }
+              {
+                Destination = "fec0::${lib.toHexString index}/128";
+              }
+            ];
+
+            networkConfig = {
+              IPv4Forwarding = true;
+              IPv6Forwarding = true;
+            };
+          }
+        ) vms;
+      };
     };
-
 }

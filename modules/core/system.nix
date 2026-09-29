@@ -1,5 +1,5 @@
 {
   flake.modules.nixos.core = { ... }: {
-    time.timeZone = "Europe/Amsterdam";
+    system.stateVersion = "26.05";
   };
 }

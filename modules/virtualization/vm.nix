@@ -1,20 +1,21 @@
-{ self, inputs, ... }: {
-  flake.nixosModules.microvm-vm =
+{
+  flake.modules.nixos.microvm-vm =
     {
+      inputs,
       config,
       options,
       lib,
       ...
     }:
     let
-      cfg = config.homelab.microvm;
+      cfg = config.homelab.microvm.vm;
     in
     {
       imports = [
         inputs.microvm.nixosModules.microvm
       ];
 
-      options.homelab.microvm = {
+      options.homelab.microvm.vm = {
         enable = lib.mkEnableOption "Enable MicroVM";
 
         inherit (options.microvm) vcpu mem;
@@ -36,7 +37,7 @@
 
         microvm = {
           hypervisor = "qemu";
-          inherit (config.homelab.microvm) vcpu mem;
+          inherit (cfg) vcpu mem;
 
           shares = [
             {
@@ -56,9 +57,9 @@
 
         microvm.interfaces = [
           {
-            id = "vm${toString config.homelab.microvm.index}";
+            id = "vm${toString cfg.index}";
             type = "tap";
-            inherit (config.homelab.microvm) mac;
+            inherit (cfg) mac;
           }
         ];
 
@@ -66,8 +67,8 @@
           matchConfig.MACAddress = config.homelab.microvm.mac;
 
           address = [
-            "10.0.0.${toString config.homelab.microvm.index}/32"
-            "fec0::${lib.toHexString config.homelab.microvm.index}/128"
+            "10.0.0.${toString cfg.index}/32"
+            "fec0::${lib.toHexString cfg.index}/128"
           ];
 
           routes = [

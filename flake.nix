@@ -6,6 +6,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
     preservation.url = "github:nix-community/preservation";
 
     sops-nix = {
@@ -24,30 +25,5 @@
     };
   };
 
-  outputs =
-    inputs@{
-      self,
-      flake-parts,
-      ...
-    }:
-    flake-parts.lib.mkFlake { inherit inputs; } (
-      { ... }:
-      {
-        systems = [
-          "x86_64-linux"
-          "aarch64-linux"
-        ];
-
-        imports = [
-          ./modules/shell.nix
-          ./modules/virtualization/vm.nix
-          ./modules/virtualization/host.nix
-          ./modules/preservation.nix
-        ];
-
-        flake = {
-          nixosConfigurations = import ./hosts { inherit self; };
-        };
-      }
-    );
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }

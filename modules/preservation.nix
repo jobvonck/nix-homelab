@@ -1,6 +1,7 @@
-{ inputs, ... }: {
-  flake.nixosModules.preservation =
+{
+  flake.modules.nixos.preservation =
     {
+      inputs,
       config,
       lib,
       ...
@@ -18,12 +19,12 @@
 
         files = lib.mkOption {
           type = lib.types.listOf lib.types.anything;
-          default = [];
+          default = [ ];
         };
 
         directories = lib.mkOption {
           type = lib.types.listOf lib.types.anything;
-          default = [];
+          default = [ ];
         };
       };
 
@@ -45,7 +46,8 @@
                 how = "symlink";
                 configureParent = true;
               }
-            ] ++ cfg.files;
+            ]
+            ++ cfg.files;
             directories = [
               "/var/lib/systemd/coredump"
               "/var/lib/systemd/rfkill"
@@ -55,7 +57,8 @@
                 directory = "/var/lib/nixos";
                 inInitrd = true;
               }
-            ] ++ cfg.directories;
+            ]
+            ++ cfg.directories;
           };
         };
       };
