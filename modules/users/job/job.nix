@@ -1,8 +1,8 @@
 {
   flake.modules.nixos.users-job =
     { ... }:
-    {
 
+    {
       users.users."job" = {
         isNormalUser = true;
         description = "job";
@@ -16,6 +16,7 @@
         # hashedPasswordFile = config.sops.secrets."password-job".path;
         password = "nixos";
       };
+
       sops.secrets."password-job" = {
         neededForUsers = true;
         sopsFile = ./secrets.yaml;

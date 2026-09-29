@@ -6,6 +6,7 @@
       lib,
       ...
     }:
+
     let
       cfg = config.homelab.impermanence;
     in

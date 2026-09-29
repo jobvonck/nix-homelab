@@ -7,6 +7,7 @@
       lib,
       ...
     }:
+
     let
       cfg = config.homelab.microvm.vm;
     in
