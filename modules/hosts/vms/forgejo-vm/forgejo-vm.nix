@@ -10,6 +10,8 @@
     {
       imports = with config.flake.modules.nixos; [
         core
+        users-root
+        users-job
         preservation
         microvm-vm
         nginx
