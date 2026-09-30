@@ -15,6 +15,8 @@
         preservation
         single-nvme-zfs
 
+        microvm-host
+
         # TODO: Remove this temporary addition
         hardware-nixy
       ];
