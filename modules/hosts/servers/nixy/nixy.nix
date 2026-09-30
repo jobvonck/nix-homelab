@@ -21,7 +21,7 @@
 
       homelab = {
         impermanence = {
-          enable = false;
+          enable = true;
         };
       };
 
