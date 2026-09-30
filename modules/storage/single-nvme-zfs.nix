@@ -39,7 +39,7 @@
           main = {
             type = "disk";
             # TODO: add device dev-by-id
-            device = "/dev/disk/by-id/???";
+            device = "/dev/disk/by-id/nvme-SK_hynix_BC511_HFM256GDJTNI-82A0A_CY07N00721030763W";
             content = {
               type = "gpt";
               partitions = {
