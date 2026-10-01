@@ -1,7 +1,12 @@
-Explain:
+# Homelab NixOS config
+
+## Explain
 
 - SOPS age key from ssh key
-  ssh nixy 'cat /persist/etc/ssh/ssh_host_ed25519_key.pub' | ssh-to-age
+
+```bash
+ssh nixy 'cat /persist/etc/ssh/ssh_host_ed25519_key.pub' | ssh-to-age
+```
 
 - Harden using [this example](https://git.grimmauld.de/Grimmauld/grimm-nixos-laptop)
 - Or using [this example](https://saylesss88.github.io/nix/hardening_NixOS.html)
@@ -13,8 +18,11 @@ Explain:
 
 ## Installation
 
-1. Boot into NixOS live-usb
-2. Look for disk id in `/dev/disk/by-id` for disko config
+Boot into NixOS live-usb and look for disk id in `/dev/disk/by-id` for disko config
+
+```bash
+ls -l /dev/disk/by-id/
+```
 
 Partition the drives using `disko`
 

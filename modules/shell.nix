@@ -10,6 +10,7 @@
         pkgs.nixfmt
         pkgs.sops
         pkgs.age
+        pkgs.ssh-to-age
       ];
     };
   };

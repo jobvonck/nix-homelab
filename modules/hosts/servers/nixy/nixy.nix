@@ -17,8 +17,7 @@
 
         microvm-host
 
-        # TODO: Remove this temporary addition
-        hardware-nixy
+        hardware-hp-pavilion-15c0900nd
       ];
 
       homelab = {
