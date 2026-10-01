@@ -17,6 +17,9 @@
         nginx
       ];
 
+      networking.hostName = "nginx-vm";
+      nixpkgs.hostPlatform = "x86_64-linux";
+
       homelab = {
         impermanence = {
           enable = false;
@@ -33,7 +36,5 @@
           mem = 512;
         };
       };
-
-      networking.hostName = "nginx-vm";
     };
 }
