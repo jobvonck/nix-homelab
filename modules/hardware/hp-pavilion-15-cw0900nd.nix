@@ -1,5 +1,5 @@
 {
-  flake.module.nixos.hardware-hp-pavilion-15c0900nd =
+  flake.modules.nixos.hardware-hp-pavilion-15c0900nd =
     {
       inputs,
       config,
