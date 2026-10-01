@@ -19,7 +19,6 @@ in
       {
         name = hostname;
         value = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
           specialArgs = {
             inherit inputs;
           };

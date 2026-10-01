@@ -1,125 +1,152 @@
 {
   flake.modules.nixos.single-nvme-zfs =
-    { inputs, ... }:
+    {
+      inputs,
+      options,
+      config,
+      lib,
+      ...
+    }:
 
+    let
+      cfg = config.homelab.storage;
+    in
     {
       imports = [
         inputs.disko.nixosModules.disko
       ];
 
-      # TODO: FIX ZED emails with msmtp
-      # TODO: Generate config more modular
-      boot.initrd.systemd.enable = true;
+      options.homelab.storage = {
+        device-id = lib.mkOption {
+          type = lib.types.str;
+          default = "/dev/disk/by-id/nvme-SK_hynix_BC511_HFM256GDJTNI-82A0A_CY07N00721030763W";
+          description = "Disk device used by the system.";
+        };
 
-      boot.initrd.systemd.services.rollback = {
-        description = "Rollback ZFS root to blank snapshot";
-        wantedBy = [ "initrd.target" ];
-        after = [ "zfs-import-zroot.service" ];
-        before = [ "sysroot.mount" ];
-        unitConfig.DefaultDependencies = "no";
-        serviceConfig.Type = "oneshot";
-        script = ''
-          zfs rollback -r zroot/tank/root@blank
-        '';
+        swap = {
+          enable = lib.mkEnableOption "swap partition";
+          size = lib.mkOption {
+            type = lib.types.str;
+            default = "16G";
+            description = "Size of the swap partition.";
+          };
+        };
       };
 
-      boot.zfs.forceImportRoot = false;
-      boot.supportedFilesystems = [ "zfs" ];
+      config = {
+        # TODO: FIX ZED emails with msmtp
+        # TODO: Generate config more modular
+        boot.initrd.systemd.enable = true;
 
-      # TODO:This needs tuning
-      # https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/Workload%20Tuning.html
-      # https://klarasystems.com/articles/openzfs-storage-best-practices-and-use-cases-part-3-databases-and-vms/
-      boot.kernelParams = [
-        "zfs.zfs_arc_max=2147483648"
-        "zfs.zfs_arc_min=1073741824"
-      ];
+        boot.initrd.systemd.services.rollback = {
+          description = "Rollback ZFS root to blank snapshot";
+          wantedBy = [ "initrd.target" ];
+          after = [ "zfs-import-zroot.service" ];
+          before = [ "sysroot.mount" ];
+          unitConfig.DefaultDependencies = "no";
+          serviceConfig.Type = "oneshot";
+          script = ''
+            zfs rollback -r zroot/tank/root@blank
+          '';
+        };
 
-      disko.devices = {
-        disk = {
-          main = {
-            type = "disk";
-            # TODO: add device dev-by-id
-            device = "/dev/disk/by-id/???";
-            content = {
-              type = "gpt";
-              partitions = {
-                ESP = {
-                  size = "1G";
-                  type = "EF00";
-                  content = {
-                    type = "filesystem";
-                    format = "vfat";
-                    mountpoint = "/boot";
-                    mountOptions = [ "umask=0077" ];
-                  };
-                };
-                luks = {
-                  size = "100%";
-                  content = {
-                    type = "luks";
-                    name = "crypted";
-                    # Not needed for manual
-                    # passwordFile = "/tmp/secret.key";
-                    askPassword = true;
-                    settings.allowDiscards = true;
+        boot.zfs.forceImportRoot = false;
+        boot.supportedFilesystems = [ "zfs" ];
+
+        # TODO:This needs tuning
+        # https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/Workload%20Tuning.html
+        # https://klarasystems.com/articles/openzfs-storage-best-practices-and-use-cases-part-3-databases-and-vms/
+        boot.kernelParams = [
+          "zfs.zfs_arc_max=2147483648"
+          "zfs.zfs_arc_min=1073741824"
+        ];
+
+        disko.devices = {
+          disk = {
+            main = {
+              type = "disk";
+              device = cfg.device-id;
+              content = {
+                type = "gpt";
+                partitions = {
+                  ESP = {
+                    size = "1G";
+                    type = "EF00";
                     content = {
-                      type = "zfs";
-                      pool = "zroot";
+                      type = "filesystem";
+                      format = "vfat";
+                      mountpoint = "/boot";
+                      mountOptions = [ "umask=0077" ];
                     };
                   };
-                };
-                swap = {
-                  size = "8G";
-                  content = {
-                    type = "swap";
-                    randomEncryption = true;
-                    priority = 100;
+                  swap = lib.mkIf cfg.swap.enable {
+                    size = cfg.swap.size;
+                    content = {
+                      type = "swap";
+                      randomEncryption = true;
+                      priority = 100;
+                    };
+                  };
+                  luks = {
+                    size = "100%";
+                    content = {
+                      type = "luks";
+                      name = "crypted";
+                      # Not needed for manual
+                      # passwordFile = "/tmp/secret.key";
+                      askPassword = true;
+                      settings.allowDiscards = true;
+                      content = {
+                        type = "zfs";
+                        pool = "zroot";
+                      };
+                    };
                   };
                 };
               };
             };
           };
-        };
 
-        zpool = {
-          zroot = {
-            type = "zpool";
-            options = {
-              ashift = "12";
-              # TODO: disable for hdd's
-              autotrim = "on";
-            };
-            rootFsOptions = {
-              acltype = "posixacl";
-              mountpoint = "none";
-              compression = "zstd";
-              relatime = "on";
-              normalization = "formD";
-              xattr = "sa";
-              "com.sun:auto-snapshot" = "false";
-            };
+          zpool = {
+            zroot = {
+              type = "zpool";
+              options = {
+                ashift = "12";
+                # TODO: disable for hdd's
+                autotrim = "on";
+              };
+              rootFsOptions = {
+                acltype = "posixacl";
+                mountpoint = "none";
+                compression = "zstd";
+                relatime = "on";
+                normalization = "formD";
+                xattr = "sa";
+                "com.sun:auto-snapshot" = "false";
+              };
 
-            postCreateHook = ''
-              zfs list -t snapshot -H -o name | grep -E '^zroot/tank/root@blank$' \
-                || zfs snapshot zroot/tank/root@blank
-            '';
+              postCreateHook = ''
+                zfs list -t snapshot -H -o name | grep -E '^zroot/tank/root@blank$' \
+                  || zfs snapshot zroot/tank/root@blank
+              '';
 
-            datasets = {
-              "tank" = {
-                type = "zfs_fs";
-                options.mountpoint = "none";
-              };
-              "tank/root" = {
-                type = "zfs_fs";
-                mountpoint = "/";
-              };
-              "tank/nix" = {
-                type = "zfs_fs";
-                mountpoint = "/nix";
-              };
-              "tank/persist" = {
-                type = "zfs_fs";
-                mountpoint = "/persist";
+              datasets = {
+                "tank" = {
+                  type = "zfs_fs";
+                  options.mountpoint = "none";
+                };
+                "tank/root" = {
+                  type = "zfs_fs";
+                  mountpoint = "/";
+                };
+                "tank/nix" = {
+                  type = "zfs_fs";
+                  mountpoint = "/nix";
+                };
+                "tank/persist" = {
+                  type = "zfs_fs";
+                  mountpoint = "/persist";
+                };
               };
             };
           };

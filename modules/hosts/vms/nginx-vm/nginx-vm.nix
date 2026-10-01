@@ -10,10 +10,15 @@
     {
       imports = with config.flake.modules.nixos; [
         core
+        users-root
+        users-job
         preservation
         microvm-vm
         nginx
       ];
+
+      networking.hostName = "nginx-vm";
+      nixpkgs.hostPlatform = "x86_64-linux";
 
       homelab = {
         impermanence = {
@@ -31,7 +36,5 @@
           mem = 512;
         };
       };
-
-      networking.hostName = "nginx-vm";
     };
 }

@@ -10,16 +10,27 @@
     {
       imports = with config.flake.modules.nixos; [
         core
+        users-root
+        users-job
         preservation
         single-nvme-zfs
+
+        microvm-host
 
         # TODO: Remove this temporary addition
         hardware-nixy
       ];
 
       homelab = {
+        storage = {
+          device-id = "/dev/disk/by-id/nvme-SK_hynix_BC511_HFM256GDJTNI-82A0A_CY07N00721030763W";
+          swap = {
+            enable = true;
+            size = "16GB";
+          };
+        };
         impermanence = {
-          enable = false;
+          enable = true;
         };
       };
 

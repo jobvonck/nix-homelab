@@ -12,8 +12,8 @@
       cfg = config.homelab.microvm.host;
 
       vmNames = [
-        "nginx"
-        "forgejo"
+        "nginx-vm"
+        "forgejo-vm"
       ];
 
       vms = lib.genAttrs vmNames (name: self.nixosConfigurations.${name});
