@@ -59,7 +59,7 @@
       boot.loader.efi.canTouchEfiVariables = true;
 
       services.logind.settings.Login = {
-        HandleLidSwitch = "poweroff";
+        HandleLidSwitch = "lock";
         HandleLidSwitchExternalPower = "lock";
         HandleLidSwitchDocked = "lock";
       };
