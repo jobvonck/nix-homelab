@@ -1,7 +1,7 @@
 keys:
   - &primary age1x6muzwc0t3qnlvds0k72npsvuf2vg5lt27g9we2vrtg6gj3cjfus62jtnm
 
-  - &nixy age19yyst6n84e0mww2s3ffws22wxv33nhhlt9e73s5wuh3mhqgt55vq6t7glj
+  - &nixy age12p6t79r00c74djfz50u40sg8qpqc5n3ae35ruaje8md9c3esu5gqnj7a7y
   - &nginx-vm age1008ksemjsmf79qw70dc7k6psnlaet4kywttu9mr50zvnqhapqajq4c986e
 
 creation_rules:
