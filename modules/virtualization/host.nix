@@ -2,6 +2,7 @@
   flake.modules.nixos.microvm-host =
     {
       self,
+      flakeConfig,
       inputs,
       config,
       lib,
@@ -11,12 +12,12 @@
     let
       cfg = config.homelab.microvm.host;
 
-      vmNames = [
-        "nginx-vm"
-        "forgejo-vm"
-      ];
+      vmNames = {
+        "nginx-vm" = 1;
+        "forgejo-vm" = 2;
+      };
 
-      vms = lib.genAttrs vmNames (name: self.nixosConfigurations.${name});
+      vmModules = flakeConfig.flake.modules.nixos;
     in
     {
       imports = [
@@ -30,16 +31,21 @@
       config = lib.mkIf cfg.enable {
         microvm.stateDir = "/var/lib/microvms";
 
-        microvm.vms = lib.genAttrs vmNames (_name: {
-          flake = self;
+        microvm.vms = lib.mapAttrs (name: index: {
+          specialArgs = { inherit inputs; };
+
+          config = {
+            imports = [
+              vmModules.${name}
+            ];
+
+            homelab.microvm.vm.index = index;
+          };
           restartIfChanged = true;
-        });
+        }) vmNames;
 
         systemd.network.networks = lib.mapAttrs' (
-          _name: config:
-          let
-            index = config.config.homelab.microvm.vm.index;
-          in
+          name: index:
           lib.nameValuePair "30-vm${toString index}" {
             matchConfig.Name = "vm${toString index}";
 
@@ -62,7 +68,7 @@
               IPv6Forwarding = true;
             };
           }
-        ) vms;
+        ) vmNames;
       };
     };
 }

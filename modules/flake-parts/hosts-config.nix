@@ -21,6 +21,7 @@ in
         value = inputs.nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
+            flakeConfig = config;
           };
           modules = [
             module

@@ -4,7 +4,7 @@
 }:
 
 {
-  flake.modules.nixos."hosts/forgejo-vm" =
+  flake.modules.nixos.forgejo-vm =
     { ... }:
 
     {
@@ -30,7 +30,6 @@
 
         microvm.vm = {
           enable = true;
-          index = 1;
 
           vcpu = 1;
           mem = 512;

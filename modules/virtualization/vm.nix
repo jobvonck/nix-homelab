@@ -22,8 +22,7 @@
         inherit (options.microvm) vcpu mem;
 
         index = lib.mkOption {
-          type = lib.types.int;
-          default = -1;
+          type = lib.types.ints.positive;
         };
 
         # TODO: Generate stable mac based on index
@@ -65,7 +64,7 @@
         ];
 
         systemd.network.networks."10-eth" = {
-          matchConfig.MACAddress = config.homelab.microvm.mac;
+          matchConfig.MACAddress = config.homelab.microvm.vm.mac;
 
           address = [
             "10.0.0.${toString cfg.index}/32"
