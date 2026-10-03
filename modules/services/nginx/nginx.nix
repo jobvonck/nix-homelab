@@ -40,7 +40,7 @@
       '';
 
       virtualHosts."git.jobvonck.nl" = {
-        forceSSL = true;
+        forceSSL = false;
         enableACME = true;
         extraConfig = ''
           client_max_body_size 512M;
