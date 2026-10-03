@@ -79,14 +79,6 @@
                       mountOptions = [ "umask=0077" ];
                     };
                   };
-                  swap = lib.mkIf cfg.swap.enable {
-                    size = cfg.swap.size;
-                    content = {
-                      type = "swap";
-                      randomEncryption = true;
-                      priority = 100;
-                    };
-                  };
                   luks = {
                     size = "100%";
                     content = {
@@ -100,6 +92,14 @@
                         type = "zfs";
                         pool = "zroot";
                       };
+                    };
+                  };
+                  swap = lib.mkIf cfg.swap.enable {
+                    size = cfg.swap.size;
+                    content = {
+                      type = "swap";
+                      randomEncryption = true;
+                      priority = 100;
                     };
                   };
                 };
