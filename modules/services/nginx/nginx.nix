@@ -45,7 +45,12 @@
         extraConfig = ''
           client_max_body_size 512M;
         '';
-        locations."/".proxyPass = "http://10.0.0.2:3000";
+        locations."/" = {
+          return = "200 '<html><body><h1>Nginx HTTPS works</h1></body></html>'";
+          extraConfig = ''
+            default_type text/html;
+          '';
+        };
       };
     };
 
