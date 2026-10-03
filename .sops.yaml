@@ -2,7 +2,7 @@ keys:
   - &primary age1x6muzwc0t3qnlvds0k72npsvuf2vg5lt27g9we2vrtg6gj3cjfus62jtnm
 
   - &nixy age12p6t79r00c74djfz50u40sg8qpqc5n3ae35ruaje8md9c3esu5gqnj7a7y
-  - &nginx-vm age1008ksemjsmf79qw70dc7k6psnlaet4kywttu9mr50zvnqhapqajq4c986e
+  - &nginx-vm age1sgdm8frqvu6f42sq8wewl3u4jyzv3er2dfqdwynw3kx7nx0v6sjqhtmkp8
 
 creation_rules:
   - path_regex: "modules/users/job/secrets.yaml$"
