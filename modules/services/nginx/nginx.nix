@@ -40,7 +40,7 @@
       '';
 
       virtualHosts."git.jobvonck.nl" = {
-        forceSSL = false;
+        forceSSL = true;
         useACMEHost = "jobvonck.nl";
 
         extraConfig = ''
@@ -48,14 +48,6 @@
         '';
         locations."/" = {
           return = "200 '<html><body><h1>Nginx HTTPS works</h1></body></html>'";
-          extraConfig = ''
-            default_type text/html;
-          '';
-        };
-      };
-      virtualHosts.localhost = {
-        locations."/" = {
-          return = "200 '<html><body>It works</body></html>'";
           extraConfig = ''
             default_type text/html;
           '';
