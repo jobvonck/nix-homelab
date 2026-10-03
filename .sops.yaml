@@ -23,4 +23,5 @@ creation_rules:
     key_groups:
       - age:
           - *primary
+          - *nixy
           - *nginx-vm
