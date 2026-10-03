@@ -25,7 +25,7 @@
           device-id = "/dev/disk/by-id/nvme-SK_hynix_BC511_HFM256GDJTNI-82A0A_CY07N00721030763W";
           swap = {
             enable = true;
-            size = "16GB";
+            size = "16G";
           };
         };
         impermanence = {
