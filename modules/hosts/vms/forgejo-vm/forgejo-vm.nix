@@ -14,7 +14,7 @@
         users-job
         preservation
         microvm-vm
-        nginx
+        forgejo
       ];
 
       networking.hostName = "forgejo-vm";
