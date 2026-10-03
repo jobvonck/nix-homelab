@@ -45,7 +45,7 @@
       networking.nat = {
         enable = true;
         internalIPs = [ "10.0.0.0/24" ];
-        externalInterface = "wlo1";
+        externalInterface = "eno1";
         forwardPorts = [
           {
             sourcePort = 80;

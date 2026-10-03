@@ -3,6 +3,7 @@ keys:
 
   - &nixy age12p6t79r00c74djfz50u40sg8qpqc5n3ae35ruaje8md9c3esu5gqnj7a7y
   - &nginx-vm age1sgdm8frqvu6f42sq8wewl3u4jyzv3er2dfqdwynw3kx7nx0v6sjqhtmkp8
+  - &forgejo-vm age1sgdm8frqvu6f42sq8wewl3u4jyzv3er2dfqdwynw3kx7nx0v6sjqhtmkp8
 
 creation_rules:
   - path_regex: "modules/users/job/secrets.yaml$"
@@ -11,6 +12,7 @@ creation_rules:
           - *primary
           - *nixy
           - *nginx-vm
+          - *forgejo-vm
 
   - path_regex: "modules/users/root/secrets.yaml$"
     key_groups:
@@ -18,6 +20,7 @@ creation_rules:
           - *primary
           - *nixy
           - *nginx-vm
+          - *forgejo-vm
 
   - path_regex: "modules/services/nginx/secrets.yaml"
     key_groups:
