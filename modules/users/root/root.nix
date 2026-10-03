@@ -1,11 +1,10 @@
 {
   flake.modules.nixos.users-root =
-    { ... }:
+    { config, ... }:
 
     {
       users.users.root = {
-        # hashedPasswordFile = config.sops.secrets."password-root".path;
-        password = "nixos";
+        hashedPasswordFile = config.sops.secrets."password-root".path;
       };
 
       sops.secrets."password-root" = {

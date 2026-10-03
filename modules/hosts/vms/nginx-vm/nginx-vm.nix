@@ -22,7 +22,7 @@
 
       homelab = {
         impermanence = {
-          enable = false;
+          enable = true;
           directories = [
             "/var/lib/acme"
           ];

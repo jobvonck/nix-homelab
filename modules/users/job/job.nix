@@ -1,6 +1,6 @@
 {
   flake.modules.nixos.users-job =
-    { ... }:
+    { config, ... }:
 
     {
       users.users."job" = {
@@ -13,8 +13,7 @@
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILYNgjDzDE+ZtmPGdPIRKXBkji3xLmP2m+fETiEeP5/h job@local"
         ];
-        # hashedPasswordFile = config.sops.secrets."password-job".path;
-        password = "nixos";
+        hashedPasswordFile = config.sops.secrets."password-job".path;
       };
 
       sops.secrets."password-job" = {
