@@ -31,7 +31,7 @@
         impermanence = {
           enable = true;
         };
-        microvm.host = true;
+        microvm.host.enable = true;
       };
 
       networking.hostName = "nixy";
