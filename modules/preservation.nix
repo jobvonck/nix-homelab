@@ -32,6 +32,8 @@
       };
 
       config = lib.mkIf cfg.enable {
+        systemd.services.systemd-machine-id-commit.enable = false;
+
         fileSystems."/persist".neededForBoot = true;
 
         preservation = {
